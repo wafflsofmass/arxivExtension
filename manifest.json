@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "JS Injector",
+  "author": "Andrew Lachance",
+  "description": "",
+  "version": "1.0",
+   "permissions": [
+    "activeTab",
+    "scripting",
+    "webNavigation",
+    "contextMenus","scripting"
+  ],
+  "host_permissions": [
+    "*://arxiv.org/search/?query*"
+  ],
+  "background": { "service_worker": "background.js" }
+}
