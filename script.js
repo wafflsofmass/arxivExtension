@@ -1,6 +1,6 @@
-const $x = (xpath) => {
+const $x = (xpath, node) => {
     let results = [];
-    let query = document.evaluate(xpath, document,
+    let query = document.evaluate(xpath, node,
         null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
     for (let i = 0, length = query.snapshotLength; i < length; ++i) {
         results.push(query.snapshotItem(i));
@@ -12,18 +12,22 @@ const $x = (xpath) => {
 
 const data = []
 
-setTimeout(() => $x('').click(), 3000)
+const xpaths = {
+    codeTab: './/span[contains(.,"Code")]',
+    table: './/div[@class="props-table"]',
+    tableName: './/h4/text()',
+    tableRow: './/tr',
+    tableCell: './/th/text() | .//td/text()'
+}
 
-setTimeout(() => $x('').click() &&
+setTimeout(() => $x(xpaths.codeTab, document).click() &&
     setTimeout(() => {
-        const componentNames = $x('')
-        const datum = componentNames.map(({ textContent }) =>
-        ({
-            [textContent]: $x(`//tr[ancestor::preceding-sibling[h4[contains(.,${textContent})]]]`)
-                .map((({ children }) => [...children]))
-                .map(children => children.map(({ textContent }) => textContent))
-        }))
-        data.push(datum)
+        $x(xpaths.table, document)
+            .map(node0 => [
+                $x(xpaths.tableName, node0),
+                $x(xpaths.tableRow, node0)
+                    .map(node1 => $x(xpaths.tableCell, node1)
+                        .map(({ textContent }) => textContent))])
     }, 3000), 3000)
 
 
