@@ -11,7 +11,7 @@
     "contextMenus","scripting"
   ],
   "host_permissions": [
-    "*://arxiv.org/search/?query*"
+    "*://coreui.io/react/docs/*"
   ],
   "background": { "service_worker": "background.js" }
 }
